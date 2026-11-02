@@ -959,30 +959,25 @@
 
     .home-coverage-viewport {
         margin-top: 26px;
-        overflow-x: auto;
+        overflow: hidden;
         overflow-y: hidden;
-        scroll-behavior: smooth;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
     }
-
-    .home-coverage-viewport::-webkit-scrollbar { display: none; }
-
-    .home-coverage-slider { position: relative; }
 
     .home-coverage-track {
         display: flex;
         width: max-content;
         align-items: center;
-    }
-
-    .home-coverage-track {
-        gap: 14px;
+        animation: home-coverage-drift 70s linear infinite;
     }
 
     .home-coverage-group {
-        display: contents;
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: 14px;
+        padding-right: 14px;
     }
 
     .home-coverage-chip {
@@ -998,7 +993,6 @@
         font-weight: 600;
         line-height: 1.2;
         white-space: nowrap;
-        scroll-snap-align: start;
     }
 
     .home-coverage-chip:nth-child(9n + 1) { background: #f8dfe2; color: #8e1b2b; }
@@ -1012,26 +1006,20 @@
         background: #91c96a;
     }
 
-    .home-coverage-arrow {
-        position: absolute;
-        top: calc(50% + 13px);
-        z-index: 2;
-        display: inline-flex;
-        width: 36px;
-        height: 36px;
-        align-items: center;
-        justify-content: center;
-        transform: translateY(-50%);
-        border: 1px solid #e1e1e1;
-        border-radius: 9999px;
-        background: #fff;
-        color: #1f2937;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    .home-coverage-viewport:hover .home-coverage-track { animation-play-state: paused; }
+
+    @keyframes home-coverage-drift {
+        to { transform: translateX(-50%); }
     }
 
-    .home-coverage-arrow[hidden] { display: none !important; }
-    .home-coverage-arrow.left { left: -16px; }
-    .home-coverage-arrow.right { right: -16px; }
+    @media (prefers-reduced-motion: reduce) {
+        .home-coverage-viewport {
+            overflow-x: auto;
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+        .home-coverage-track { animation: none; }
+    }
 
     .starlink-friday-banner {
         display: grid;
@@ -1324,9 +1312,6 @@
         .home-coverage-viewport { margin-top: 18px; }
         .home-coverage-chip { min-height: 38px; gap: 7px; padding: 0 14px; font-size: 12px; }
         .home-coverage-dot { width: 7px; height: 7px; }
-        .home-coverage-arrow { width: 32px; height: 32px; }
-        .home-coverage-arrow.left { left: 3px; }
-        .home-coverage-arrow.right { right: 3px; }
 
         .thumb-grid-4 {
             gap: 16px;
@@ -2069,22 +2054,19 @@
                     <p class="home-coverage-eyebrow">{{ data_get($coverageSection, 'eyebrow') }}</p>
                 @endif
                 <h2 id="home-coverage-title" class="home-coverage-title">{{ data_get($coverageSection, 'title', 'Serving all 47 counties of Kenya') }}</h2>
-                <div class="home-coverage-slider" data-home-coverage-slider>
-                    <button type="button" class="home-coverage-arrow left" data-home-coverage-prev aria-label="Previous counties">
-                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-                    </button>
-                    <div class="home-coverage-viewport" data-home-coverage-track role="group" aria-label="Delivery coverage across Kenya">
-                        <div class="home-coverage-track">
-                            <div class="home-coverage-group">
-                                @foreach($coverageCounties as $county)
-                                    <span class="home-coverage-chip"><span>{{ data_get($county, 'title') }}</span><span class="home-coverage-dot" aria-hidden="true"></span></span>
-                                @endforeach
-                            </div>
+                <div class="home-coverage-viewport" role="group" aria-label="Delivery coverage across Kenya">
+                    <div class="home-coverage-track">
+                        <div class="home-coverage-group">
+                            @foreach($coverageCounties as $county)
+                                <span class="home-coverage-chip"><span>{{ data_get($county, 'title') }}</span><span class="home-coverage-dot" aria-hidden="true"></span></span>
+                            @endforeach
+                        </div>
+                        <div class="home-coverage-group" aria-hidden="true">
+                            @foreach($coverageCounties as $county)
+                                <span class="home-coverage-chip"><span>{{ data_get($county, 'title') }}</span><span class="home-coverage-dot"></span></span>
+                            @endforeach
                         </div>
                     </div>
-                    <button type="button" class="home-coverage-arrow right" data-home-coverage-next aria-label="Next counties">
-                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-                    </button>
                 </div>
             </div>
         </section>
@@ -2247,36 +2229,6 @@
             updateControls();
         });
 
-        document.querySelectorAll('[data-home-coverage-slider]').forEach((slider) => {
-            const track = slider.querySelector('[data-home-coverage-track]');
-            const content = track?.querySelector('.home-coverage-track');
-            const previous = slider.querySelector('[data-home-coverage-prev]');
-            const next = slider.querySelector('[data-home-coverage-next]');
-
-            if (!track || !content || !previous || !next) {
-                return;
-            }
-
-            const updateControls = () => {
-                const maxScroll = track.scrollWidth - track.clientWidth;
-                previous.hidden = maxScroll <= 2 || track.scrollLeft <= 2;
-                next.hidden = maxScroll <= 2 || track.scrollLeft >= maxScroll - 2;
-            };
-            const scrollByCounty = (direction) => {
-                const county = content.querySelector('.home-coverage-chip');
-                const gap = parseFloat(getComputedStyle(content).columnGap) || 0;
-                track.scrollBy({
-                    left: direction * (county ? county.getBoundingClientRect().width + gap : track.clientWidth),
-                    behavior: 'smooth',
-                });
-            };
-
-            previous.addEventListener('click', () => scrollByCounty(-1));
-            next.addEventListener('click', () => scrollByCounty(1));
-            track.addEventListener('scroll', updateControls, { passive: true });
-            window.addEventListener('resize', updateControls);
-            updateControls();
-        });
     });
 </script>
 @endpush
