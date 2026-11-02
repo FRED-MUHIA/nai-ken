@@ -842,7 +842,7 @@
     }
 
     .home-faq-inner {
-        max-width: 1680px;
+        max-width: 1240px;
         margin: 0 auto;
     }
 
@@ -936,7 +936,7 @@
     }
 
     .home-coverage-inner {
-        max-width: 1680px;
+        max-width: 1240px;
         margin: 0 auto;
     }
 
