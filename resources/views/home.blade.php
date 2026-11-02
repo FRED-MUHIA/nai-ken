@@ -655,6 +655,45 @@
         color: #fff;
     }
 
+    .featured-products-section {
+        margin-top: 24px;
+        padding: 28px 16px 34px;
+    }
+
+    .featured-products-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+    }
+
+    .featured-products-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .featured-product-card {
+        display: flex;
+        min-width: 0;
+        min-height: 0;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+        border-radius: 20px;
+        background: #fff;
+        color: #111;
+        text-decoration: none;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+    }
+
+    .featured-product-card:hover .top-pick-order {
+        background: #111;
+        color: #fff;
+    }
+
+    .featured-product-card .top-pick-media {
+        flex: 0 0 auto;
+    }
+
     .top-picks-arrow {
         display: none;
         position: absolute;
@@ -932,6 +971,7 @@
         .icon-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .thumb-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .thumb-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .featured-products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .top-pick-card { flex-basis: calc((100% - 36px) / 3); }
         .top-pick-footer {
             align-items: stretch;
@@ -1066,6 +1106,21 @@
         }
 
         .top-pick-card { flex-basis: calc((100% - 12px) / 2); }
+
+        .featured-products-section {
+            margin-top: 12px;
+            padding: 20px 16px 28px;
+        }
+
+        .featured-products-grid { gap: 12px; }
+
+        .featured-product-card {
+            border-radius: 14px;
+        }
+
+        .featured-product-card .top-pick-media {
+            border-radius: 14px 14px 0 0;
+        }
 
         .top-pick-card {
             border-radius: 14px;
@@ -1601,6 +1656,44 @@
             <button type="button" class="top-picks-arrow right" data-top-picks-next aria-label="Next top picks">
                 <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
             </button>
+        </div>
+    </div>
+</section>
+
+<section class="featured-products-section" aria-labelledby="featured-products-title">
+    <div class="featured-products-inner">
+        <div class="top-picks-header">
+            <h2 id="featured-products-title" class="top-picks-title">Featured Products</h2>
+            <a href="{{ route('products.index') }}" class="top-picks-view-all">
+                All Products
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+            </a>
+        </div>
+
+        <div class="featured-products-grid">
+            @foreach($featuredProducts->take(8) as $product)
+                @php
+                    $featuredPrice = (float) $product->base_price;
+                    $featuredCategory = $product->category?->name ?: $product->categories->first()?->name ?: 'Products';
+                @endphp
+                <a href="{{ route('products.show', $product) }}" class="featured-product-card">
+                    <div class="top-pick-media">
+                        <span class="top-pick-badge">{{ $featuredCategory }}</span>
+                        <img loading="lazy" decoding="async" src="{{ $displayImage($product->thumbnail, 420, 64) ?: asset('favicon.svg') }}" alt="{{ $product->name }}">
+                    </div>
+                    <div class="top-pick-body">
+                        <h3 class="top-pick-name">{{ $product->name }}</h3>
+                        <div class="top-pick-footer">
+                            <span class="top-pick-price-wrap">
+                                <span class="top-pick-currency">KES</span>
+                                <span class="top-pick-price">{{ number_format($featuredPrice, 0) }}</span>
+                                <span class="top-pick-usd">${{ number_format($featuredPrice / max((float) config('shop.usd_exchange_rate', 126), 1), 2) }}</span>
+                            </span>
+                            <span class="top-pick-order">Order Now</span>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
 </section>
