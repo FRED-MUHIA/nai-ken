@@ -834,8 +834,9 @@
     }
 
     .home-faq-section {
-        margin-top: 40px;
-        padding: 24px 16px 34px;
+        width: 100vw;
+        margin: 16px calc(50% - 50vw) 0;
+        padding: 18px 16px 22px;
         background: #fff;
         color: #171717;
     }
@@ -849,9 +850,9 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 18px;
+        margin-bottom: 10px;
         color: #ff1744;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.14em;
         line-height: 1.3;
@@ -867,15 +868,15 @@
 
     .home-faq-title {
         margin: 0;
-        font-size: clamp(1.6rem, 2.4vw, 2rem);
+        font-size: clamp(1.45rem, 2vw, 1.75rem);
         line-height: 1.2;
         font-weight: 700;
     }
 
     .home-faq-subtitle {
-        margin-top: 12px;
+        margin-top: 6px;
         color: #55545b;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1.5;
     }
 
@@ -883,8 +884,8 @@
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         align-items: start;
-        gap: 16px 22px;
-        margin-top: 40px;
+        gap: 12px 16px;
+        margin-top: 22px;
     }
 
     .home-faq-item {
@@ -896,14 +897,14 @@
 
     .home-faq-question {
         display: flex;
-        min-height: 78px;
+        min-height: 62px;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        padding: 20px 24px;
+        padding: 14px 18px;
         color: #222126;
         cursor: pointer;
-        font-size: 17px;
+        font-size: 15px;
         line-height: 1.45;
         list-style: none;
     }
@@ -921,15 +922,17 @@
     .home-faq-item[open] .home-faq-chevron { transform: rotate(180deg); }
 
     .home-faq-answer {
-        padding: 0 24px 22px;
+        padding: 0 18px 16px;
         color: #55545b;
-        font-size: 15px;
+        font-size: 14px;
         line-height: 1.65;
     }
 
     .home-coverage-section {
-        margin-top: 24px;
-        padding: 28px 16px 34px;
+        width: 100vw;
+        margin: 12px calc(50% - 50vw) 0;
+        padding: 18px 16px 22px;
+        background: #fff;
     }
 
     .home-coverage-inner {
@@ -940,7 +943,7 @@
     .home-coverage-eyebrow {
         margin: 0 0 8px;
         color: #4b6b94;
-        font-size: 14px;
+        font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.28em;
         line-height: 1.4;
@@ -949,13 +952,13 @@
 
     .home-coverage-title {
         margin: 0;
-        font-size: clamp(2rem, 3.2vw, 3rem);
+        font-size: clamp(1.65rem, 2.6vw, 2.3rem);
         font-weight: 500;
         line-height: 1.15;
     }
 
     .home-coverage-viewport {
-        margin-top: 48px;
+        margin-top: 26px;
         overflow: hidden;
     }
 
@@ -983,14 +986,14 @@
 
     .home-coverage-chip {
         display: inline-flex;
-        min-height: 60px;
+        min-height: 46px;
         align-items: center;
-        gap: 12px;
+        gap: 9px;
         border-radius: 9999px;
         background: #ed1b2f;
-        padding: 0 24px;
+        padding: 0 18px;
         color: #fff;
-        font-size: 17px;
+        font-size: 14px;
         font-weight: 600;
         line-height: 1.2;
         white-space: nowrap;
@@ -1000,8 +1003,8 @@
     .home-coverage-chip:nth-child(9n + 8) { background: #e54455; }
 
     .home-coverage-dot {
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         flex: 0 0 auto;
         border-radius: 50%;
         background: #91c96a;
@@ -1295,19 +1298,19 @@
         .top-categories-arrow.left { left: 6px; }
         .top-categories-arrow.right { right: 6px; }
 
-        .home-faq-section { margin-top: 24px; padding: 18px 16px 26px; }
-        .home-faq-eyebrow { margin-bottom: 14px; font-size: 11px; }
-        .home-faq-subtitle { margin-top: 8px; font-size: 14px; }
-        .home-faq-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
-        .home-faq-question { min-height: 68px; padding: 16px; font-size: 15px; }
-        .home-faq-answer { padding: 0 16px 16px; font-size: 14px; }
-        .home-coverage-section { margin-top: 16px; padding: 20px 16px 28px; }
-        .home-coverage-eyebrow { font-size: 10px; letter-spacing: 0.2em; }
-        .home-coverage-title { font-size: clamp(1.7rem, 8vw, 2.4rem); }
-        .home-coverage-viewport { margin-top: 28px; }
-        .home-coverage-group { gap: 10px; padding-right: 10px; }
-        .home-coverage-chip { min-height: 48px; gap: 9px; padding: 0 18px; font-size: 14px; }
-        .home-coverage-dot { width: 8px; height: 8px; }
+        .home-faq-section { margin-top: 12px; padding: 14px 16px 18px; }
+        .home-faq-eyebrow { margin-bottom: 8px; font-size: 10px; }
+        .home-faq-subtitle { margin-top: 5px; font-size: 13px; }
+        .home-faq-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 18px; }
+        .home-faq-question { min-height: 54px; padding: 12px 14px; font-size: 14px; }
+        .home-faq-answer { padding: 0 14px 14px; font-size: 13px; }
+        .home-coverage-section { margin-top: 10px; padding: 14px 16px 18px; }
+        .home-coverage-eyebrow { font-size: 9px; letter-spacing: 0.18em; }
+        .home-coverage-title { font-size: clamp(1.4rem, 7vw, 1.8rem); }
+        .home-coverage-viewport { margin-top: 18px; }
+        .home-coverage-group { gap: 8px; padding-right: 8px; }
+        .home-coverage-chip { min-height: 38px; gap: 7px; padding: 0 14px; font-size: 12px; }
+        .home-coverage-dot { width: 7px; height: 7px; }
 
         .thumb-grid-4 {
             gap: 16px;
