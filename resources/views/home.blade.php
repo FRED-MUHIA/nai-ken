@@ -349,6 +349,60 @@
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
+    .top-categories-slider {
+        position: relative;
+    }
+
+    .top-categories-row {
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .top-categories-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .top-categories-row .top-category-card {
+        flex: 0 0 calc((100% - 56px) / 5);
+        min-width: 0;
+        scroll-snap-align: start;
+    }
+
+    .top-categories-arrow {
+        position: absolute;
+        top: 50%;
+        z-index: 3;
+        display: inline-flex;
+        width: 42px;
+        height: 42px;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-50%);
+        border: 1px solid #e1e1e1;
+        border-radius: 9999px;
+        background: #fff;
+        color: #1f2937;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+    }
+
+    .top-categories-arrow:disabled {
+        opacity: 0.4;
+        cursor: default;
+    }
+
+    .top-categories-arrow[hidden] {
+        display: none !important;
+    }
+
+    .top-categories-arrow.left { left: -16px; }
+    .top-categories-arrow.right { right: -16px; }
+
     .thumb-grid-4 {
         display: grid;
         gap: 12px;
@@ -779,6 +833,189 @@
         line-height: 1.28;
     }
 
+    .home-faq-section {
+        margin-top: 40px;
+        padding: 24px 16px 34px;
+        background: #fff;
+        color: #171717;
+    }
+
+    .home-faq-inner {
+        max-width: 1680px;
+        margin: 0 auto;
+    }
+
+    .home-faq-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+        color: #ff1744;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        line-height: 1.3;
+        text-transform: uppercase;
+    }
+
+    .home-faq-eyebrow::before {
+        width: 24px;
+        height: 2px;
+        background: currentColor;
+        content: "";
+    }
+
+    .home-faq-title {
+        margin: 0;
+        font-size: clamp(1.6rem, 2.4vw, 2rem);
+        line-height: 1.2;
+        font-weight: 700;
+    }
+
+    .home-faq-subtitle {
+        margin-top: 12px;
+        color: #55545b;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .home-faq-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+        gap: 16px 22px;
+        margin-top: 40px;
+    }
+
+    .home-faq-item {
+        overflow: hidden;
+        border: 1px solid #e7e7eb;
+        border-radius: 16px;
+        background: #fff;
+    }
+
+    .home-faq-question {
+        display: flex;
+        min-height: 78px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 20px 24px;
+        color: #222126;
+        cursor: pointer;
+        font-size: 17px;
+        line-height: 1.45;
+        list-style: none;
+    }
+
+    .home-faq-question::-webkit-details-marker { display: none; }
+
+    .home-faq-chevron {
+        flex: 0 0 auto;
+        width: 18px;
+        height: 18px;
+        color: #ff1744;
+        transition: transform 160ms ease;
+    }
+
+    .home-faq-item[open] .home-faq-chevron { transform: rotate(180deg); }
+
+    .home-faq-answer {
+        padding: 0 24px 22px;
+        color: #55545b;
+        font-size: 15px;
+        line-height: 1.65;
+    }
+
+    .home-coverage-section {
+        margin-top: 24px;
+        padding: 28px 16px 34px;
+    }
+
+    .home-coverage-inner {
+        max-width: 1680px;
+        margin: 0 auto;
+    }
+
+    .home-coverage-eyebrow {
+        margin: 0 0 8px;
+        color: #4b6b94;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        line-height: 1.4;
+        text-transform: uppercase;
+    }
+
+    .home-coverage-title {
+        margin: 0;
+        font-size: clamp(2rem, 3.2vw, 3rem);
+        font-weight: 500;
+        line-height: 1.15;
+    }
+
+    .home-coverage-viewport {
+        margin-top: 48px;
+        overflow: hidden;
+    }
+
+    .home-coverage-track,
+    .home-coverage-group {
+        display: flex;
+        width: max-content;
+        align-items: center;
+    }
+
+    .home-coverage-track {
+        animation: home-coverage-drift 78s linear infinite;
+    }
+
+    .home-coverage-viewport:hover .home-coverage-track,
+    .home-coverage-viewport:focus-within .home-coverage-track {
+        animation-play-state: paused;
+    }
+
+    .home-coverage-group {
+        flex: 0 0 auto;
+        gap: 14px;
+        padding-right: 14px;
+    }
+
+    .home-coverage-chip {
+        display: inline-flex;
+        min-height: 60px;
+        align-items: center;
+        gap: 12px;
+        border-radius: 9999px;
+        background: #ed1b2f;
+        padding: 0 24px;
+        color: #fff;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    .home-coverage-chip:nth-child(9n + 1) { background: #f8dfe2; color: #8e1b2b; }
+    .home-coverage-chip:nth-child(9n + 8) { background: #e54455; }
+
+    .home-coverage-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: #91c96a;
+    }
+
+    @keyframes home-coverage-drift {
+        to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .home-coverage-viewport { overflow-x: auto; }
+        .home-coverage-track { animation: none; }
+    }
+
     .starlink-friday-banner {
         display: grid;
         grid-template-columns: minmax(500px, 0.95fr) minmax(360px, 1fr) minmax(210px, auto);
@@ -971,6 +1208,8 @@
         .icon-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .thumb-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .thumb-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .top-categories-row .top-category-card { flex-basis: calc((100% - 28px) / 3); }
+        .home-faq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .featured-products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .top-pick-card { flex-basis: calc((100% - 36px) / 3); }
         .top-pick-footer {
@@ -1049,6 +1288,26 @@
         .icon-grid-5 {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        .top-categories-row { gap: 12px; }
+        .top-categories-row .top-category-card { flex-basis: 78%; }
+        .top-categories-arrow { width: 36px; height: 36px; }
+        .top-categories-arrow.left { left: 6px; }
+        .top-categories-arrow.right { right: 6px; }
+
+        .home-faq-section { margin-top: 24px; padding: 18px 16px 26px; }
+        .home-faq-eyebrow { margin-bottom: 14px; font-size: 11px; }
+        .home-faq-subtitle { margin-top: 8px; font-size: 14px; }
+        .home-faq-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+        .home-faq-question { min-height: 68px; padding: 16px; font-size: 15px; }
+        .home-faq-answer { padding: 0 16px 16px; font-size: 14px; }
+        .home-coverage-section { margin-top: 16px; padding: 20px 16px 28px; }
+        .home-coverage-eyebrow { font-size: 10px; letter-spacing: 0.2em; }
+        .home-coverage-title { font-size: clamp(1.7rem, 8vw, 2.4rem); }
+        .home-coverage-viewport { margin-top: 28px; }
+        .home-coverage-group { gap: 10px; padding-right: 10px; }
+        .home-coverage-chip { min-height: 48px; gap: 9px; padding: 0 18px; font-size: 14px; }
+        .home-coverage-dot { width: 8px; height: 8px; }
 
         .thumb-grid-4 {
             gap: 16px;
@@ -1300,6 +1559,8 @@
         'home_product_tiles',
         'home_top_picks',
         'home_services',
+        'home_faq',
+        'home_coverage',
         'home_favourites',
     ];
     $genericHomeSections = collect($homeSections ?? [])
@@ -1448,6 +1709,16 @@
         'image' => data_get($item, 'image_url', ''),
         'url' => data_get($item, 'link_url', route('products.index')),
     ])->filter(fn ($item) => ! empty($item['title']))->values();
+
+    $faqSection = $sectionMap->get('home_faq', []);
+    $faqItems = collect(data_get($faqSection, 'items', []))
+        ->filter(fn ($item) => is_array($item) && data_get($item, 'title'))
+        ->values();
+
+    $coverageSection = $sectionMap->get('home_coverage', []);
+    $coverageCounties = collect(data_get($coverageSection, 'items', []))
+        ->filter(fn ($item) => is_array($item) && data_get($item, 'title'))
+        ->values();
 
     $favouritesSection = $sectionMap->get('home_favourites', []);
     $favouriteProducts = collect(data_get($favouritesSection, 'items', []))->map(fn ($item) => [
@@ -1600,17 +1871,25 @@
             <h2 class="section-title">{{ data_get($topCategoriesSection, 'title', 'Top categories') }}</h2>
             <a href="{{ data_get($topCategoriesSection, 'button_url', route('products.index')) }}" class="text-sm font-medium text-[#3f5f8e]">{{ data_get($topCategoriesSection, 'button_label', 'SHOW ALL') }}</a>
         </div>
-        <div class="thumb-grid-5">
-        @foreach($topCategories as $item)
-                @php
-                    $imageLoading = $loop->first ? 'eager' : 'lazy';
-                    $imagePriority = $loop->first ? 'high' : 'auto';
-                @endphp
-                <a href="{{ data_get($item, 'url', route('products.index')) }}" class="top-category-card">
-                    <img loading="{{ $imageLoading }}" fetchpriority="{{ $imagePriority }}" decoding="async" src="{{ $displayImage($item['image'], 420, 64) }}" alt="{{ $item['name'] }}">
-                    <span class="top-category-label">{{ $item['name'] }}</span>
-                </a>
-            @endforeach
+        <div class="top-categories-slider" data-top-categories-slider>
+            <button type="button" class="top-categories-arrow left" data-top-categories-prev aria-label="Previous categories">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="top-categories-row" data-top-categories-track>
+                @foreach($topCategories as $item)
+                    @php
+                        $imageLoading = $loop->first ? 'eager' : 'lazy';
+                        $imagePriority = $loop->first ? 'high' : 'auto';
+                    @endphp
+                    <a href="{{ data_get($item, 'url', route('products.index')) }}" class="top-category-card">
+                        <img loading="{{ $imageLoading }}" fetchpriority="{{ $imagePriority }}" decoding="async" src="{{ $displayImage($item['image'], 420, 64) }}" alt="{{ $item['name'] }}">
+                        <span class="top-category-label">{{ $item['name'] }}</span>
+                    </a>
+                @endforeach
+            </div>
+            <button type="button" class="top-categories-arrow right" data-top-categories-next aria-label="Next categories">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+            </button>
         </div>
     </section>
 
@@ -1733,6 +2012,58 @@
                         </div>
                     </a>
                 @endforeach
+            </div>
+        </section>
+    @endif
+
+    @if($faqItems->isNotEmpty())
+        <section class="home-faq-section" aria-labelledby="home-faq-title" style="background: {{ data_get($faqSection, 'bg_color', '#ffffff') }}; color: {{ data_get($faqSection, 'text_color', '#171717') }};">
+            <div class="home-faq-inner">
+                @if(data_get($faqSection, 'eyebrow'))
+                    <p class="home-faq-eyebrow">{{ data_get($faqSection, 'eyebrow') }}</p>
+                @endif
+                <h2 id="home-faq-title" class="home-faq-title">{{ data_get($faqSection, 'title', 'Frequently Asked Questions') }}</h2>
+                @if(data_get($faqSection, 'subtitle'))
+                    <p class="home-faq-subtitle">{{ data_get($faqSection, 'subtitle') }}</p>
+                @endif
+                <div class="home-faq-grid">
+                    @foreach($faqItems as $item)
+                        <details class="home-faq-item">
+                            <summary class="home-faq-question">
+                                <span>{{ data_get($item, 'title') }}</span>
+                                <svg viewBox="0 0 24 24" class="home-faq-chevron" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                            </summary>
+                            @if(data_get($item, 'content'))
+                                <div class="home-faq-answer">{{ data_get($item, 'content') }}</div>
+                            @endif
+                        </details>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if($coverageCounties->isNotEmpty())
+        <section class="home-coverage-section" aria-labelledby="home-coverage-title" style="background: {{ data_get($coverageSection, 'bg_color', '#ffffff') }}; color: {{ data_get($coverageSection, 'text_color', '#172033') }};">
+            <div class="home-coverage-inner">
+                @if(data_get($coverageSection, 'eyebrow'))
+                    <p class="home-coverage-eyebrow">{{ data_get($coverageSection, 'eyebrow') }}</p>
+                @endif
+                <h2 id="home-coverage-title" class="home-coverage-title">{{ data_get($coverageSection, 'title', 'Serving all 47 counties of Kenya') }}</h2>
+                <div class="home-coverage-viewport" role="region" aria-label="Delivery coverage across Kenya" tabindex="0">
+                    <div class="home-coverage-track">
+                        <div class="home-coverage-group">
+                            @foreach($coverageCounties as $county)
+                                <span class="home-coverage-chip"><span>{{ data_get($county, 'title') }}</span><span class="home-coverage-dot" aria-hidden="true"></span></span>
+                            @endforeach
+                        </div>
+                        <div class="home-coverage-group" aria-hidden="true">
+                            @foreach($coverageCounties as $county)
+                                <span class="home-coverage-chip"><span>{{ data_get($county, 'title') }}</span><span class="home-coverage-dot"></span></span>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     @endif
@@ -1865,6 +2196,33 @@
             slider.addEventListener('focusin', () => { autoplayPaused = true; });
             slider.addEventListener('focusout', () => { autoplayPaused = false; });
             startAutoplay();
+        });
+
+        document.querySelectorAll('[data-top-categories-slider]').forEach((slider) => {
+            const track = slider.querySelector('[data-top-categories-track]');
+            const previous = slider.querySelector('[data-top-categories-prev]');
+            const next = slider.querySelector('[data-top-categories-next]');
+
+            if (!track || !previous || !next) {
+                return;
+            }
+
+            const updateControls = () => {
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                previous.hidden = maxScroll <= 2 || track.scrollLeft <= 2;
+                next.hidden = maxScroll <= 2 || track.scrollLeft >= maxScroll - 2;
+            };
+            const scrollByCard = (direction) => {
+                const card = track.querySelector('.top-category-card');
+                const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+                track.scrollBy({ left: direction * (card ? card.getBoundingClientRect().width + gap : track.clientWidth), behavior: 'smooth' });
+            };
+
+            previous.addEventListener('click', () => scrollByCard(-1));
+            next.addEventListener('click', () => scrollByCard(1));
+            track.addEventListener('scroll', updateControls, { passive: true });
+            window.addEventListener('resize', updateControls);
+            updateControls();
         });
     });
 </script>

@@ -230,6 +230,14 @@ class PageBuilderController extends Controller
             $sections[] = $defaults->get('home_top_picks');
         }
 
+        if (! $components->contains('home_faq') && $defaults->has('home_faq')) {
+            $sections[] = $defaults->get('home_faq');
+        }
+
+        if (! $components->contains('home_coverage') && $defaults->has('home_coverage')) {
+            $sections[] = $defaults->get('home_coverage');
+        }
+
         return $sections;
     }
 }

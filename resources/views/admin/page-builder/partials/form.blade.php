@@ -71,6 +71,8 @@
                         <option value="home_product_tiles">Home: Product Tiles</option>
                         <option value="home_top_picks">Home: Best Selling</option>
                         <option value="home_services">Home: Services</option>
+                        <option value="home_faq">Home: Frequently Asked Questions</option>
+                        <option value="home_coverage">Home: Delivery Coverage</option>
                         <option value="home_favourites">Home: Favourite Products</option>
                         <option value="design_hero">Design Services: Hero</option>
                         <option value="design_gallery">Design Services: Gallery</option>
@@ -90,6 +92,7 @@
                         <option value="gallery">Gallery</option>
                     </select>
                     <input type="text" x-model="section.title" placeholder="Title" class="rounded-lg border-slate-300 text-sm">
+                    <input type="text" x-model="section.eyebrow" placeholder="Eyebrow / small heading (optional)" class="rounded-lg border-slate-300 text-sm">
                     <input type="text" x-model="section.subtitle" placeholder="Subtitle" class="rounded-lg border-slate-300 text-sm">
                     <div class="grid gap-2 sm:col-span-2 sm:grid-cols-2">
                         <input type="text" x-model="section.image_url" list="page-builder-media-urls" placeholder="Image URL" class="rounded-lg border-slate-300 text-sm">
@@ -112,9 +115,13 @@
 
                 <div class="mt-3 rounded-lg border border-slate-200 bg-white p-3">
                     <div class="mb-2 flex items-center justify-between">
-                        <p class="text-xs font-bold uppercase text-slate-500">Section Items (Cards / FAQ / Gallery)</p>
-                        <button type="button" class="rounded bg-slate-800 px-2 py-1 text-[11px] font-bold text-white" @click="addItem(idx)">Add Item</button>
+                        <p class="text-xs font-bold uppercase text-slate-500" x-text="section.component === 'home_top_categories' ? 'Top Categories' : (section.component === 'home_faq' ? 'Frequently Asked Questions' : (section.component === 'home_coverage' ? 'Delivery Coverage Counties' : 'Section Items (Cards / FAQ / Gallery)'))"></p>
+                        <button type="button" class="rounded bg-slate-800 px-2 py-1 text-[11px] font-bold text-white" @click="addItem(idx)" x-text="section.component === 'home_top_categories' ? 'Add Category' : (section.component === 'home_faq' ? 'Add FAQ' : (section.component === 'home_coverage' ? 'Add County' : 'Add Item'))"></button>
                     </div>
+
+                    <p x-show="section.component === 'home_top_categories'" class="mb-2 text-xs text-slate-500">Add as many category slides as you need. Each one can have a title, image, and destination link.</p>
+                    <p x-show="section.component === 'home_faq'" class="mb-2 text-xs text-slate-500">Each FAQ item uses its title as the question and content as the answer.</p>
+                    <p x-show="section.component === 'home_coverage'" class="mb-2 text-xs text-slate-500">Edit the county names, add another county chip, or remove one from the delivery coverage strip.</p>
 
                     <template x-if="!section.items || section.items.length === 0">
                         <p class="text-xs text-slate-500">No items added for this section.</p>
@@ -124,28 +131,28 @@
                         <template x-for="(item, itemIdx) in section.items" :key="itemIdx">
                             <div class="rounded border border-slate-200 bg-slate-50 p-2">
                                 <div class="mb-2 flex items-center justify-between">
-                                    <p class="text-[11px] font-bold uppercase text-slate-500">Item <span x-text="itemIdx + 1"></span></p>
+                                    <p class="text-[11px] font-bold uppercase text-slate-500"><span x-text="section.component === 'home_coverage' ? 'County' : 'Item'"></span> <span x-text="itemIdx + 1"></span></p>
                                     <button type="button" class="text-[11px] font-bold text-rose-700" @click="removeItem(idx, itemIdx)">Remove</button>
                                 </div>
                                 <div class="grid gap-2 sm:grid-cols-2">
-                                    <input type="text" x-model="item.title" placeholder="Item title" class="rounded border-slate-300 text-xs">
-                                    <input type="text" x-model="item.subtitle" placeholder="Item subtitle" class="rounded border-slate-300 text-xs">
-                                    <div class="grid gap-2 sm:col-span-2 sm:grid-cols-2">
-                                        <input type="text" x-model="item.image_url" list="page-builder-media-urls" placeholder="Item image/icon URL" class="rounded border-slate-300 text-xs">
+                                    <input type="text" x-model="item.title" :placeholder="section.component === 'home_top_categories' ? 'Category name' : (section.component === 'home_faq' ? 'Question' : (section.component === 'home_coverage' ? 'County name' : 'Item title'))" class="rounded border-slate-300 text-xs">
+                                    <input x-show="section.component !== 'home_coverage'" type="text" x-model="item.subtitle" placeholder="Item subtitle" class="rounded border-slate-300 text-xs">
+                                    <div x-show="section.component !== 'home_coverage'" class="grid gap-2 sm:col-span-2 sm:grid-cols-2">
+                                        <input type="text" x-model="item.image_url" list="page-builder-media-urls" :placeholder="section.component === 'home_top_categories' ? 'Category image URL' : 'Item image/icon URL'" class="rounded border-slate-300 text-xs">
                                         <input type="file" :name="`item_images[${idx}][${itemIdx}]`" accept="image/*" class="rounded border border-slate-300 px-2 py-1 text-xs">
                                     </div>
-                                    <textarea x-model="item.content" rows="2" placeholder="Item content" class="rounded border-slate-300 text-xs sm:col-span-2"></textarea>
-                                    <input type="text" x-model="item.link_url" placeholder="Item link URL" class="rounded border-slate-300 text-xs sm:col-span-2">
-                                    <input type="text" x-model="item.slug" placeholder="Project slug / anchor ID" class="rounded border-slate-300 text-xs">
-                                    <input type="text" x-model="item.year" placeholder="Project year" class="rounded border-slate-300 text-xs">
-                                    <input type="text" x-model="item.service" placeholder="Project service/type" class="rounded border-slate-300 text-xs sm:col-span-2">
-                                    <textarea x-model="item.details" rows="2" placeholder="Project details" class="rounded border-slate-300 text-xs sm:col-span-2"></textarea>
-                                    <textarea x-model="item.deliverables" rows="2" placeholder="Project deliverables, one per line" class="rounded border-slate-300 text-xs"></textarea>
-                                    <textarea x-model="item.images" rows="2" placeholder="Project image URLs, one per line" class="rounded border-slate-300 text-xs"></textarea>
-                                    <label class="text-[11px] font-semibold text-slate-600">Item background color
+                                    <textarea x-show="section.component !== 'home_coverage'" x-model="item.content" rows="2" :placeholder="section.component === 'home_faq' ? 'Answer' : 'Item content'" class="rounded border-slate-300 text-xs sm:col-span-2"></textarea>
+                                    <input x-show="section.component !== 'home_coverage'" type="text" x-model="item.link_url" :placeholder="section.component === 'home_top_categories' ? 'Category destination URL' : 'Item link URL'" class="rounded border-slate-300 text-xs sm:col-span-2">
+                                    <input x-show="section.component !== 'home_coverage'" type="text" x-model="item.slug" placeholder="Project slug / anchor ID" class="rounded border-slate-300 text-xs">
+                                    <input x-show="section.component !== 'home_coverage'" type="text" x-model="item.year" placeholder="Project year" class="rounded border-slate-300 text-xs">
+                                    <input x-show="section.component !== 'home_coverage'" type="text" x-model="item.service" placeholder="Project service/type" class="rounded border-slate-300 text-xs sm:col-span-2">
+                                    <textarea x-show="section.component !== 'home_coverage'" x-model="item.details" rows="2" placeholder="Project details" class="rounded border-slate-300 text-xs sm:col-span-2"></textarea>
+                                    <textarea x-show="section.component !== 'home_coverage'" x-model="item.deliverables" rows="2" placeholder="Project deliverables, one per line" class="rounded border-slate-300 text-xs"></textarea>
+                                    <textarea x-show="section.component !== 'home_coverage'" x-model="item.images" rows="2" placeholder="Project image URLs, one per line" class="rounded border-slate-300 text-xs"></textarea>
+                                    <label x-show="section.component !== 'home_coverage'" class="text-[11px] font-semibold text-slate-600">Item background color
                                         <input type="text" x-model="item.bg_color" placeholder="#ffffff" class="mt-1 w-full rounded border-slate-300 text-xs">
                                     </label>
-                                    <label class="text-[11px] font-semibold text-slate-600">Item text color
+                                    <label x-show="section.component !== 'home_coverage'" class="text-[11px] font-semibold text-slate-600">Item text color
                                         <input type="text" x-model="item.text_color" placeholder="#111111" class="mt-1 w-full rounded border-slate-300 text-xs">
                                     </label>
                                 </div>
@@ -167,6 +174,7 @@
         const normalizeSection = (section = {}) => ({
             component: section.component || 'text',
             title: section.title || '',
+            eyebrow: section.eyebrow || '',
             subtitle: section.subtitle || '',
             content: section.content || '',
             image_url: section.image_url || '',

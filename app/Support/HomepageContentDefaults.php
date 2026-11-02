@@ -6,6 +6,15 @@ class HomepageContentDefaults
 {
     public static function sections(): array
     {
+        $kenyanCounties = [
+            'Mombasa', 'Kwale', 'Kilifi', 'Tana River', 'Lamu', 'Taita Taveta', 'Garissa', 'Wajir', 'Mandera',
+            'Marsabit', 'Isiolo', 'Meru', 'Tharaka Nithi', 'Embu', 'Kitui', 'Machakos', 'Makueni', 'Nyandarua',
+            'Nyeri', 'Kirinyaga', 'Murang’a', 'Kiambu', 'Turkana', 'West Pokot', 'Samburu', 'Trans Nzoia',
+            'Uasin Gishu', 'Elgeyo Marakwet', 'Nandi', 'Baringo', 'Laikipia', 'Nakuru', 'Narok', 'Kajiado',
+            'Kericho', 'Bomet', 'Kakamega', 'Vihiga', 'Bungoma', 'Busia', 'Siaya', 'Kisumu', 'Homa Bay',
+            'Migori', 'Kisii', 'Nyamira', 'Nairobi City',
+        ];
+
         return [
             [
                 'component' => 'home_pet_promo',
@@ -180,6 +189,45 @@ class HomepageContentDefaults
                 ],
             ],
             [
+                'component' => 'home_faq',
+                'eyebrow' => 'FREQUENTLY ASKED QUESTIONS',
+                'title' => 'Printing Services FAQ',
+                'subtitle' => 'Everything you need to know about printing at Nai Printers',
+                'content' => '',
+                'image_url' => '',
+                'button_label' => '',
+                'button_url' => '',
+                'bg_color' => '#ffffff',
+                'text_color' => '#171717',
+                'items' => [
+                    ['title' => 'What printing services do you offer in Kenya?', 'subtitle' => '', 'content' => 'We print a wide range of products, including business cards, flyers, brochures, posters, banners, labels and branded merchandise. Browse the product catalogue to see available options and finishes.', 'image_url' => '', 'link_url' => ''],
+                    ['title' => 'How fast is your printing turnaround time?', 'subtitle' => '', 'content' => 'Turnaround depends on the product, quantity and finishing you choose. The estimated production time is confirmed with your order or quote.', 'image_url' => '', 'link_url' => ''],
+                    ['title' => 'Do you deliver printing orders outside Nairobi?', 'subtitle' => '', 'content' => 'Yes. Delivery options are available for customers across Kenya. The available method and estimated delivery time are confirmed when you place your order.', 'image_url' => '', 'link_url' => ''],
+                    ['title' => 'What payment methods do you accept?', 'subtitle' => '', 'content' => 'Available payment methods are shown during checkout or confirmed with your quote before you pay.', 'image_url' => '', 'link_url' => ''],
+                    ['title' => 'Can you help with design for my printing project?', 'subtitle' => '', 'content' => 'Yes. Contact our team with your project details and we can discuss design support and the files needed for printing.', 'image_url' => '', 'link_url' => '/contact'],
+                    ['title' => 'Why order printing online from Nai Printers?', 'subtitle' => '', 'content' => 'You can browse products, compare available options and request printing from one place. Our team can help with questions about your artwork, order or delivery.', 'image_url' => '', 'link_url' => ''],
+                ],
+            ],
+            [
+                'component' => 'home_coverage',
+                'eyebrow' => 'WHERE WE PRINT & DELIVER',
+                'title' => 'Serving all 47 counties of Kenya',
+                'subtitle' => '',
+                'content' => '',
+                'image_url' => '',
+                'button_label' => '',
+                'button_url' => '',
+                'bg_color' => '#ffffff',
+                'text_color' => '#172033',
+                'items' => array_map(static fn (string $county): array => [
+                    'title' => $county,
+                    'subtitle' => '',
+                    'content' => '',
+                    'image_url' => '',
+                    'link_url' => '',
+                ], $kenyanCounties),
+            ],
+            [
                 'component' => 'home_top_picks',
                 'title' => 'Best Selling',
                 'subtitle' => '',
@@ -225,7 +273,7 @@ class HomepageContentDefaults
             return $defaultsByComponent->values()->all();
         }
 
-        return collect($sections)
+        $resolvedSections = collect($sections)
             ->filter(fn ($section) => is_array($section) && ! empty($section['component']))
             ->map(function (array $section) use ($defaultsByComponent) {
                 $component = (string) data_get($section, 'component');
@@ -242,5 +290,15 @@ class HomepageContentDefaults
             })
             ->values()
             ->all();
+
+        if (! collect($resolvedSections)->contains('component', 'home_faq')) {
+            $resolvedSections[] = $defaultsByComponent->get('home_faq');
+        }
+
+        if (! collect($resolvedSections)->contains('component', 'home_coverage')) {
+            $resolvedSections[] = $defaultsByComponent->get('home_coverage');
+        }
+
+        return $resolvedSections;
     }
 }
