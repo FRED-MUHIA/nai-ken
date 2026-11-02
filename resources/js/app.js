@@ -210,7 +210,6 @@ window.productSearchSuggestions = function (endpoint) {
 
         init() {
             this.query = new URLSearchParams(window.location.search).get('q') || '';
-            this.$watch('query', (value) => this.search(value));
         },
 
         get allResultsUrl() {
@@ -228,35 +227,42 @@ window.productSearchSuggestions = function (endpoint) {
             const term = value.trim();
 
             if (term.length < 2) {
+                this.abortController?.abort();
+                this.abortController = null;
                 this.open = false;
                 this.suggestions = [];
                 this.loading = false;
-                this.abortController?.abort();
                 return;
             }
 
             this.abortController?.abort();
-            this.abortController = new AbortController();
+            const controller = new AbortController();
+            this.abortController = controller;
             this.loading = true;
             this.open = true;
 
             try {
                 const response = await fetch(`${this.endpoint}?q=${encodeURIComponent(term)}`, {
                     headers: { Accept: 'application/json' },
-                    signal: this.abortController.signal,
+                    signal: controller.signal,
                 });
 
                 if (! response.ok) {
                     throw new Error('Product suggestions request failed.');
                 }
 
-                this.suggestions = await response.json();
+                const suggestions = await response.json();
+                if (this.abortController === controller) {
+                    this.suggestions = suggestions;
+                }
             } catch (error) {
-                if (error.name !== 'AbortError') {
+                if (error.name !== 'AbortError' && this.abortController === controller) {
                     this.suggestions = [];
                 }
             } finally {
-                this.loading = false;
+                if (this.abortController === controller) {
+                    this.loading = false;
+                }
             }
         },
     };

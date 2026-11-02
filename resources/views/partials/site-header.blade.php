@@ -1078,7 +1078,8 @@
                     data-ea-placeholder="search_placeholder"
                     autocomplete="off"
                     class="h-12 w-full rounded-md border-0 bg-white px-4 pr-12 text-[16px] text-[#222]"
-                    x-model.debounce.250ms="query"
+                    x-model="query"
+                    @input.debounce.250ms="search($event.target.value)"
                     @focus="show()"
                     @keydown.escape="open = false"
                 >

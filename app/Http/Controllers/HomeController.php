@@ -25,7 +25,7 @@ class HomeController extends Controller
         $featuredProducts = Product::query()
             ->active()
             ->with(['category', 'categories'])
-            ->where('is_featured', true)
+            ->inRandomOrder()
             ->take(8)
             ->get();
 
