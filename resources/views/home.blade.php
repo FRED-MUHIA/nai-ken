@@ -959,29 +959,23 @@
 
     .home-coverage-viewport {
         margin-top: 26px;
-        overflow: hidden;
+        overflow: visible;
     }
 
     .home-coverage-track,
     .home-coverage-group {
         display: flex;
-        width: max-content;
         align-items: center;
     }
 
     .home-coverage-track {
-        animation: home-coverage-drift 78s linear infinite;
-    }
-
-    .home-coverage-viewport:hover .home-coverage-track,
-    .home-coverage-viewport:focus-within .home-coverage-track {
-        animation-play-state: paused;
+        width: 100%;
     }
 
     .home-coverage-group {
-        flex: 0 0 auto;
+        width: 100%;
+        flex-wrap: wrap;
         gap: 14px;
-        padding-right: 14px;
     }
 
     .home-coverage-chip {
@@ -1008,15 +1002,6 @@
         flex: 0 0 auto;
         border-radius: 50%;
         background: #91c96a;
-    }
-
-    @keyframes home-coverage-drift {
-        to { transform: translateX(-50%); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .home-coverage-viewport { overflow-x: auto; }
-        .home-coverage-track { animation: none; }
     }
 
     .starlink-friday-banner {
@@ -1308,7 +1293,7 @@
         .home-coverage-eyebrow { font-size: 9px; letter-spacing: 0.18em; }
         .home-coverage-title { font-size: clamp(1.4rem, 7vw, 1.8rem); }
         .home-coverage-viewport { margin-top: 18px; }
-        .home-coverage-group { gap: 8px; padding-right: 8px; }
+        .home-coverage-group { gap: 8px; }
         .home-coverage-chip { min-height: 38px; gap: 7px; padding: 0 14px; font-size: 12px; }
         .home-coverage-dot { width: 7px; height: 7px; }
 
@@ -2053,16 +2038,11 @@
                     <p class="home-coverage-eyebrow">{{ data_get($coverageSection, 'eyebrow') }}</p>
                 @endif
                 <h2 id="home-coverage-title" class="home-coverage-title">{{ data_get($coverageSection, 'title', 'Serving all 47 counties of Kenya') }}</h2>
-                <div class="home-coverage-viewport" role="region" aria-label="Delivery coverage across Kenya" tabindex="0">
+                <div class="home-coverage-viewport" role="group" aria-label="Delivery coverage across Kenya">
                     <div class="home-coverage-track">
                         <div class="home-coverage-group">
                             @foreach($coverageCounties as $county)
                                 <span class="home-coverage-chip"><span>{{ data_get($county, 'title') }}</span><span class="home-coverage-dot" aria-hidden="true"></span></span>
-                            @endforeach
-                        </div>
-                        <div class="home-coverage-group" aria-hidden="true">
-                            @foreach($coverageCounties as $county)
-                                <span class="home-coverage-chip"><span>{{ data_get($county, 'title') }}</span><span class="home-coverage-dot"></span></span>
                             @endforeach
                         </div>
                     </div>
