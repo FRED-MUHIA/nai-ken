@@ -12,25 +12,42 @@ class SeoController extends Controller
 {
     public function sitemap(): Response
     {
+        $cmsPageSlugs = [
+            'about',
+            'contact',
+            'blog',
+            'help',
+            'design-services',
+            'custom-branded-receipts-invoices-delivery-books',
+            'branded-folders',
+            'certificates',
+            'envelopes',
+            '19hdEPSFQ4iUhtWoXHqg2E1kPCpUmaEgP8',
+        ];
+        $cmsPages = CmsPage::query()
+            ->active()
+            ->whereIn('slug', $cmsPageSlugs)
+            ->get(['slug', 'sections', 'updated_at'])
+            ->keyBy('slug');
+
+        $cmsLastModified = fn (string $slug): ?string => $cmsPages->get($slug)?->updated_at?->toAtomString();
+
         $urls = collect([
             $this->entry('home'),
             $this->entry('products.index'),
-            $this->entry('pages.about'),
-            $this->entry('pages.contact'),
-            $this->entry('pages.blog'),
-            $this->entry('pages.help'),
-            $this->entry('pages.design-services'),
-            $this->entry('pages.custom-receipts'),
-            $this->entry('pages.branded-folders'),
-            $this->entry('pages.certificates'),
-            $this->entry('pages.envelopes'),
-            $this->entry('pages.token-business'),
+            $this->entry('pages.about', [], $cmsLastModified('about')),
+            $this->entry('pages.contact', [], $cmsLastModified('contact')),
+            $this->entry('pages.blog', [], $cmsLastModified('blog')),
+            $this->entry('pages.help', [], $cmsLastModified('help')),
+            $this->entry('pages.design-services', [], $cmsLastModified('design-services')),
+            $this->entry('pages.custom-receipts', [], $cmsLastModified('custom-branded-receipts-invoices-delivery-books')),
+            $this->entry('pages.branded-folders', [], $cmsLastModified('branded-folders')),
+            $this->entry('pages.certificates', [], $cmsLastModified('certificates')),
+            $this->entry('pages.envelopes', [], $cmsLastModified('envelopes')),
+            $this->entry('pages.token-business', [], $cmsLastModified('19hdEPSFQ4iUhtWoXHqg2E1kPCpUmaEgP8')),
         ]);
 
-        $designPage = CmsPage::query()
-            ->active()
-            ->where('slug', 'design-services')
-            ->first(['sections', 'updated_at']);
+        $designPage = $cmsPages->get('design-services');
 
         $projectUrls = collect(DesignServicesContentDefaults::projects($designPage?->sections))
             ->map(fn (array $project) => $this->entry(
