@@ -432,7 +432,7 @@
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($productTags as $tag)
                                     <a
-                                        href="{{ route('products.index', ['q' => $tag]) }}"
+                                        href="{{ route('product-tags.show', ['tag' => \Illuminate\Support\Str::slug($tag)]) }}"
                                         rel="tag"
                                         class="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold leading-none text-slate-600 hover:border-slate-300 hover:bg-white"
                                     >

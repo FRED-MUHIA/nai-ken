@@ -20,6 +20,7 @@ use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicInvoiceController;
 use App\Http\Controllers\PublicStorageController;
@@ -42,6 +43,7 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/product-tags/{tag}', [ProductTagController::class, 'show'])->name('product-tags.show');
 
 Route::get('/upload-artwork', [ArtworkController::class, 'create'])->name('artwork.create');
 Route::post('/upload-artwork', [ArtworkController::class, 'store'])->name('artwork.store');

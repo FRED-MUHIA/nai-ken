@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\CmsPage;
 use App\Models\Product;
 use App\Support\DesignServicesContentDefaults;
+use App\Support\ProductTagCatalog;
 use Illuminate\Http\Response;
 
 class SeoController extends Controller
@@ -66,6 +67,13 @@ class SeoController extends Controller
                 $product->updated_at?->toAtomString()
             ));
 
+        $productTagUrls = ProductTagCatalog::all()
+            ->map(fn (array $tag) => $this->entry(
+                'product-tags.show',
+                ['tag' => $tag['slug']],
+                $tag['updated_at']
+            ));
+
         $postUrls = BlogPost::query()
             ->published()
             ->orderBy('id')
@@ -79,6 +87,7 @@ class SeoController extends Controller
         $urls = $urls
             ->concat($projectUrls)
             ->concat($productUrls)
+            ->concat($productTagUrls)
             ->concat($postUrls)
             ->unique('loc')
             ->values();
